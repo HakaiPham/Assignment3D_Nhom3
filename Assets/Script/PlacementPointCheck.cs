@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Interaction : MonoBehaviour
+public class PlacementPointCheck : MonoBehaviour, IInteraction
 {
     public List<GameObject> placementPoints;
     [HideInInspector]public GameObject item;
