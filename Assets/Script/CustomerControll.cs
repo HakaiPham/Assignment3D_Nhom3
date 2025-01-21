@@ -81,6 +81,7 @@ public class CustomerControll : MonoBehaviour
     {
         animator.SetBool("IsWalk", true);
         agent.SetDestination(_ItemNeedShopping[_CurrentTargetIndex].gameObject.transform.position);
+        Debug.Log("Name: " + _ItemNeedShopping[_CurrentTargetIndex].transform.position);
     }
     public void ShoppingItem()
     {
@@ -144,7 +145,6 @@ public class CustomerControll : MonoBehaviour
     }
     IEnumerator WaitBuy()//Đợi mua rồi di chuyển
     {
-        _IsNextItem = true;
         if (_CurrentTargetIndex >= 0 && _CurrentTargetIndex < _ItemNeedShopping.Count)
         {
             Move();

@@ -229,9 +229,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ListItem:
-  - {fileID: 2913491359017118768, guid: 3ccc60516571bbe42bdc8e4ddc092806, type: 3}
-  - {fileID: 5179362154575032957, guid: bdc8878cb3a0a4845acb9963ca93995c, type: 3}
-  - {fileID: 7315474113410859624, guid: 4eb93d2db5b64de4c844fa91ac707557, type: 3}
+  - {fileID: 1605247960}
+  - {fileID: 529481053}
+  - {fileID: 495900073}
   _ItemNeedShopping: []
   _CurrentTargetIndex: 0
   _IsFinishedShopping: 0
@@ -277,9 +277,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ListItem:
-  - {fileID: 2913491359017118768, guid: 3ccc60516571bbe42bdc8e4ddc092806, type: 3}
-  - {fileID: 5179362154575032957, guid: bdc8878cb3a0a4845acb9963ca93995c, type: 3}
-  - {fileID: 7315474113410859624, guid: 4eb93d2db5b64de4c844fa91ac707557, type: 3}
+  - {fileID: 1605247960}
+  - {fileID: 529481053}
+  - {fileID: 495900073}
   _ItemNeedShopping: []
   _CurrentTargetIndex: 0
   _IsFinishedShopping: 0
@@ -307,6 +307,16 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!1 &495900073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7315474113410859624, guid: 4eb93d2db5b64de4c844fa91ac707557, type: 3}
+  m_PrefabInstance: {fileID: 6803495411090221417}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &529481053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5179362154575032957, guid: bdc8878cb3a0a4845acb9963ca93995c, type: 3}
+  m_PrefabInstance: {fileID: 9089838001369685346}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &578886585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334,6 +344,10 @@ PrefabInstance:
     - target: {fileID: 3705368189358213872, guid: b9e058fbfe50f954486fc9963d255417, type: 3}
       propertyPath: m_Name
       value: Customer1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705368189358213872, guid: b9e058fbfe50f954486fc9963d255417, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4046427159744139338, guid: b9e058fbfe50f954486fc9963d255417, type: 3}
       propertyPath: m_LocalPosition.x
@@ -730,6 +744,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1605247960 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2913491359017118768, guid: 3ccc60516571bbe42bdc8e4ddc092806, type: 3}
+  m_PrefabInstance: {fileID: 3916929391168303585}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1786762713
 GameObject:
   m_ObjectHideFlags: 0
