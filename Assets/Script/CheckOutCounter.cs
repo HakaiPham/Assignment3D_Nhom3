@@ -8,7 +8,7 @@ public class CheckOutCounter : MonoBehaviour
     // Start is called before the first frame update
     public Transform checkOutPoint;
     private Queue<GameObject> customerQueue = new Queue<GameObject>();//hàng đợi khách hàng
-    private bool isCheckoutBusy = false;//Trạng thái quầy thanh toán
+    public bool isCheckoutBusy = false;//Trạng thái quầy thanh toán
     private int lastQueueCount = -1; // Biến lưu số lượng hàng đợi trước đó
     void Start()
     {

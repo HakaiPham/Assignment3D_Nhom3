@@ -7,18 +7,25 @@ public class CustomerControll : MonoBehaviour
 {
     // Start is called before the first frame update
     private NavMeshAgent agent;
-    [SerializeField] private Transform target;
     [SerializeField] GameObject[] _ListItem;
     [SerializeField] private List<GameObject> _ItemNeedShopping;
     private Vector3 originalPosition;
     [SerializeField] private int _CurrentTargetIndex = 0;//Theo dõi mục tiêu hiện tại
     bool _IsNextItem = false;
     public bool _IsFinishedShopping = false;
-    [SerializeField] public Transform _CheckOutCounter;
     int itemCount = 0;
     CheckOutCounter checkOutManager;
     public bool _HasCompletedCheckout = false;
     [SerializeField] float distance;
+    Animator animator;
+    bool _IsComingCheckOut = false;
+    private void Awake()
+    {
+        if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+    }
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -26,6 +33,7 @@ public class CustomerControll : MonoBehaviour
         Debug.Log("Original Position: " + originalPosition);
         ShoppingItem();
         checkOutManager = FindObjectOfType<CheckOutCounter>();
+
     }
 
     // Update is called once per frame
@@ -45,9 +53,8 @@ public class CustomerControll : MonoBehaviour
             float distance = Vector3.Distance(transform.position, originalPosition);
             if (distance < 1f)
             {
-                Debug.Log("Đã về vị trí ban đầu.");
                 _IsFinishedShopping = true;
-
+                animator.SetBool("IsWalk", false);
                 // Xóa danh sách vật phẩm và cập nhật trạng thái
                 _ItemNeedShopping.Clear();
                 _IsNextItem = false;
@@ -55,12 +62,14 @@ public class CustomerControll : MonoBehaviour
                 checkOutManager.CheckOutCompleted();
             }
         }
-        if (_ItemNeedShopping.Count > 0 && agent.remainingDistance < 0.05f)
+        if (_ItemNeedShopping.Count > 0 && agent.remainingDistance < 0.1f)
         {
             //agent.remainingDistance là khoảng cách từ vị trí hiện tại đến đích còn cách khoản bao nhiêu
             if(_CurrentTargetIndex < _ItemNeedShopping.Count)
             {
                 _CurrentTargetIndex++;
+                agent.speed = 0;
+                animator.SetTrigger("IsShopping");
                 if (!_IsNextItem)//Xác định mục tiêu hiện tại không vượt quá số lượng vật phẩm cần mua
                 {
                     StartCoroutine(WaitBuy());
@@ -70,6 +79,7 @@ public class CustomerControll : MonoBehaviour
     }
     public void Move()
     {
+        animator.SetBool("IsWalk", true);
         agent.SetDestination(_ItemNeedShopping[_CurrentTargetIndex].gameObject.transform.position);
     }
     public void ShoppingItem()
@@ -88,6 +98,7 @@ public class CustomerControll : MonoBehaviour
     }
     public void GetCheckOutPostition(Vector3 checkoutPosition)
     {
+        animator.SetBool("IsWalk", true);
         agent.SetDestination(checkoutPosition);
 
     }
@@ -96,16 +107,23 @@ public class CustomerControll : MonoBehaviour
         bool checkOutIsBusy = checkOutManager.CheckOutIsBusy();
         if (!_HasCompletedCheckout)
         {
-            Debug.Log("Đang đợi thanh toán");
+            animator.SetBool("IsWalk", true);
             Vector3 checkOutPoint = checkOutManager.CheckoutPoint().transform.position;
-            distance = Vector3.Distance(transform.position, checkOutPoint);
+            distance = Vector3.Distance(checkOutPoint, transform.position);
             if (!checkOutIsBusy)
             {
                 checkOutManager.AddCustomerToQueue(this.gameObject);
+                _IsComingCheckOut = true;//đang đi tới quầy 
+            }
+            if (!_IsComingCheckOut)//Không có tời quầy thanh toán
+            {
+                animator.SetBool("IsWalk", false);
             }
             // Nếu Player đã đến quầy thanh toán
             if (distance < 0.5f)
             {
+                _IsComingCheckOut = false;
+                animator.SetBool("IsWalk", false);
                 // Hiển thị các vật phẩm đã mua
                 foreach (GameObject item in _ItemNeedShopping)
                 {
@@ -117,7 +135,7 @@ public class CustomerControll : MonoBehaviour
                 // Nếu người chơi nhấn H, xác nhận thanh toán hoàn tất
                 if (Input.GetKeyDown(KeyCode.H))
                 {
-                    Debug.Log("Đã hoàn tất thanh toán");
+                    animator.SetBool("IsWalk", true);
                     _HasCompletedCheckout = true; // Cờ xác nhận thanh toán
                     agent.SetDestination(originalPosition); // Di chuyển về vị trí ban đầu
                 }
@@ -127,8 +145,12 @@ public class CustomerControll : MonoBehaviour
     IEnumerator WaitBuy()//Đợi mua rồi di chuyển
     {
         _IsNextItem = true;
-        Move();
-        yield return new WaitForSeconds(1f);
+        if (_CurrentTargetIndex >= 0 && _CurrentTargetIndex < _ItemNeedShopping.Count)
+        {
+            Move();
+        }
+        yield return new WaitForSeconds(2f);
         _IsNextItem = false;
+        agent.speed = 3.5f;
     }
 }
