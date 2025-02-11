@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 95449239311263694}
   - component: {fileID: 4177478739842664690}
   - component: {fileID: 6001303280699524907}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Almonds
   m_TagString: CanPickup
   m_Icon: {fileID: 0}

@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 95316957286006506}
   - component: {fileID: 7977349295105367756}
   - component: {fileID: 6402002261679857562}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Mushrooms
   m_TagString: CanPickup
   m_Icon: {fileID: 0}
