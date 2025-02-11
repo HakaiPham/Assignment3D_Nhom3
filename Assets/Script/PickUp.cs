@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
     public GameObject player;
     public Transform holdPos;
-    public LayerMask ignoreLayer; //layer to ignore when raycasting
+    public LayerMask ignoreLayer;
+    public TextMeshProUGUI holdItemName;
+    public TextMeshProUGUI itemAmount; //layer to ignore when raycasting
     
     public float throwForce = 500f; //force at which the object is thrown at
     public float pickUpRange = 5f; //how far the player can pickup the object from
@@ -78,6 +81,10 @@ public class PickUp : MonoBehaviour
             heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
             heldObj.layer = LayerNumber; //change the object layer to the HoldLayer
             //make sure object doesnt collide with player, it can cause weird bugs
+            
+            holdItemName.text = heldObj.GetComponent<RefillBox>().name;
+            itemAmount.text = heldObj.GetComponent<RefillBox>().amount.ToString();
+            
             //Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
             heldObj.GetComponent<Collider>().enabled = false;
         }

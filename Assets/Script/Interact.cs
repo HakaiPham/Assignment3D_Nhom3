@@ -6,6 +6,7 @@ using UnityEngine;
 public class Interact : MonoBehaviour
 {
     public PickUp PickUp;
+    public LayerMask ignoreLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +23,20 @@ public class Interact : MonoBehaviour
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit,PickUp.pickUpRange,
-                     ~PickUp.ignoreLayer))
+                     ~ignoreLayer))
             {
-                hit.transform.GetComponent<PlacementPointCheck>().item = PickUp.heldObj.GetComponent<RefillBox>().item;
-                hit.transform.GetComponent<IInteraction>().Interact();
+                if(PickUp.heldObj.GetComponent<RefillBox>().amount > 0)
+                {
+                    hit.transform.GetComponent<PlacementPointCheck>().item = PickUp.heldObj.GetComponent<RefillBox>().item;
+                    PickUp.heldObj.GetComponent<RefillBox>().amount--;
+                    if (PickUp.heldObj.GetComponent<RefillBox>().amount <= 0)
+                    {
+                        Destroy(PickUp.heldObj);
+                        PickUp.heldObj = null;
+                    }
+                    hit.transform.GetComponent<IInteraction>().Interact();
+                }
+                
             }
         }
 

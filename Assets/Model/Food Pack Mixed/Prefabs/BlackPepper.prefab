@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4022658334751700}
   - component: {fileID: 8967202530175880009}
   - component: {fileID: 8766508146086399359}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BlackPepper
   m_TagString: CanPickup
   m_Icon: {fileID: 0}
