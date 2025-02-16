@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 95878198201022974}
   - component: {fileID: 6561296376177878928}
   - component: {fileID: 171640549088237949}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BlueBerries
   m_TagString: CanPickup
   m_Icon: {fileID: 0}

@@ -10,6 +10,7 @@ public class CheckOutCounter : MonoBehaviour
     private Queue<GameObject> customerQueue = new Queue<GameObject>();//hàng đợi khách hàng
     public bool isCheckoutBusy = false;//Trạng thái quầy thanh toán
     private int lastQueueCount = -1; // Biến lưu số lượng hàng đợi trước đó
+    public float queueSpacing = 1.5f;// Khoảng cách của các khách hàng trong hàng đợi
     void Start()
     {
         
@@ -22,34 +23,43 @@ public class CheckOutCounter : MonoBehaviour
         //Nếu có thì người kia sẽ phải đợi cho đến khi được thanh toán xong
         //Biến sẽ thành true khi mà người chơi hoàn thanh xong việc thanh toán
         //Sau khi hoàn thành xong việc biến sẽ trở lại thành false
-        if (customerQueue.Count != lastQueueCount)
-        {
-            Debug.Log("Số lượng khách hàng trong hàng chờ là: " + customerQueue.Count);
-            lastQueueCount = customerQueue.Count; // Cập nhật số lượng hàng đợi hiện tại
-        }
     }
     public void AddCustomerToQueue(GameObject customer)
     {
         if (!customerQueue.Contains(customer)) // Đảm bảo khách hàng không bị thêm trùng lặp
         {
             customerQueue.Enqueue(customer);
-            Debug.Log("Thêm khách hàng: " + customer.name);
-            ProcessQueue();
+            UpdateQueuePosition();
+        }
+    }
+    public void UpdateQueuePosition()
+    {
+        int index = 0;//Xử lý khách hàng đang có trong hàng đợi
+        foreach (GameObject customer in customerQueue)
+        {
+            Vector3 targetPosition = checkOutPoint.position - new Vector3 (0, 0, index *queueSpacing);
+            customer.GetComponent<CustomerControll>().MoveTo(targetPosition);
+            index++;
         }
     }
     public void ProcessQueue()
     {
-        if(!isCheckoutBusy&&customerQueue.Count > 0)
+        if(customerQueue.Count > 0)
         {
             isCheckoutBusy = true;
             GameObject currentCustomer = customerQueue.Dequeue();//Lấy khách hàng đầu tiên'
             currentCustomer.GetComponent<CustomerControll>().GetCheckOutPostition(checkOutPoint.position);
+            UpdateQueuePosition();
         }
     }
     public void CheckOutCompleted()
     {
         isCheckoutBusy = false; // Quầy thanh toán trống
-        ProcessQueue(); // Xử lý khách hàng tiếp theo
+        if(customerQueue.Count > 0)
+        {
+            ProcessQueue(); // Xử lý khách hàng tiếp theo
+
+        }
     }
     public Transform CheckoutPoint()
     {
