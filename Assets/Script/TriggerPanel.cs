@@ -1,63 +1,68 @@
-using TMPro;
 using UnityEngine;
 
-public class TriggerPanel : MonoBehaviour
+public class ShopUIManager : MonoBehaviour
 {
-    [Header("Raycast Settings")]
-    public float interactionDistance = 3f; // Max distance for interaction
-    public LayerMask interactableLayer; // Layer for interactable objects
-    public KeyCode interactionKey = KeyCode.E; // Key to trigger panel
+    public GameObject shopPanel; // The shop panel
+    private bool isShopOpen = false; // Track shop state
 
-    [Header("UI & Feedback")]
-    private bool isLookingAtPanel = false; // Check if player is looking at the panel
-    public GameObject InteractPromt;
+    void Start()
+    {
+        // Find the shop panel in the scene by name
+        shopPanel = GameObject.Find("Shop UI");
 
-    [Header("Panel Stuff")]
-    public GameObject ShopPanel;
-    
+        if (shopPanel == null)
+        {
+            Debug.LogError("Shop UI panel not found! Make sure it's named 'Shop UI' in the hierarchy.");
+            return;
+        }
 
-    
+        shopPanel.SetActive(false); // Hide shop at the start
+        LockCursor(); // Ensure cursor is locked at start
+    }
 
     void Update()
     {
-        CheckForPanelInteraction();
+        if (shopPanel == null) return;
+
+        if (Input.GetKeyDown(KeyCode.B)) // Press "B" to toggle shop
+        {
+            ToggleShop();
+        }
+
+        // Press "Esc" to close the shop (optional)
+        if (Input.GetKeyDown(KeyCode.Escape) && isShopOpen)
+        {
+            CloseShop();
+        }
     }
 
-    void CheckForPanelInteraction()
+    void ToggleShop()
     {
-        InteractPromt.SetActive(false);
-        // Raycast from camera center
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        RaycastHit hit;
+        isShopOpen = !isShopOpen;
+        shopPanel.SetActive(isShopOpen);
 
-        if (Physics.Raycast(ray, out hit, interactionDistance, interactableLayer))
-        {
-            // If we hit a trigger panel
-            if (hit.collider.CompareTag("PC"))
-            {
-                isLookingAtPanel = true;
-                if (InteractPromt != null) InteractPromt.SetActive(true);
-
-                // If player presses interaction key
-                if (Input.GetKeyDown(interactionKey))
-                {
-                    ActivatePanel(hit.collider.gameObject);
-                }
-            }
-        }
+        if (isShopOpen)
+            UnlockCursor();
         else
-        {
-            // Player is not looking at a panel
-            if (!isLookingAtPanel)
-            {
-                InteractPromt.SetActive(false);
-            }
-        }
+            LockCursor();
     }
 
-    void ActivatePanel(GameObject panel)
+    void CloseShop()
     {
-        Debug.Log("Panel Activated: " + panel.name);
-        // You can add functionality here, such as opening a UI, playing a sound, etc.
+        isShopOpen = false;
+        shopPanel.SetActive(false);
+        LockCursor();
+    }
+
+    void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None; // Unlock cursor
+        Cursor.visible = true; // Show cursor
+    }
+
+    void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked; // Lock cursor
+        Cursor.visible = false; // Hide cursor
     }
 }

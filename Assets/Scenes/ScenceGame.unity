@@ -6194,7 +6194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToToggle: {fileID: 346498038}
   TB: {fileID: 1875120272}
-  player: {fileID: 0}
+  player: {fileID: 7644835823334220068}
   detectionRange: 1
   toggleKey: 102
 --- !u!65 &1231752421
@@ -10826,6 +10826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  sprintSpeed: 10
   jumpHeight: 1
 --- !u!224 &4518292039127130799
 RectTransform:

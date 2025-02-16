@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23292324950465716}
   - component: {fileID: -1043031957382512201}
   - component: {fileID: 8834809040951041313}
+  - component: {fileID: 7536350853560461971}
   m_Layer: 0
   m_Name: VanillaExtract_NoVariants (761 tris)
   m_TagString: CanPickup
@@ -140,6 +141,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &7536350853560461971
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280969666934756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.0053852
+  m_Height: 17.637667
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5943955700949158228
 GameObject:
   m_ObjectHideFlags: 0
