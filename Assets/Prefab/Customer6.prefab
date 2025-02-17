@@ -12,10 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer6
       objectReference: {fileID: 0}
-    - target: {fileID: 187904287186049807, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
-      propertyPath: m_TagString
-      value: Customer
-      objectReference: {fileID: 0}
     - target: {fileID: 707136990861001141, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -215,7 +211,7 @@ PrefabInstance:
     - target: {fileID: 7934037344855887186, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 47e7cc553f037274abcfbd8e8228cf2e, type: 2}
+      objectReference: {fileID: 9100000, guid: 8b9a677f24793ba45bdc27a1dab7745e, type: 2}
     - target: {fileID: 8250890617152530238, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.10840554
@@ -369,9 +365,6 @@ MonoBehaviour:
   _Shelf: []
   hasPurchased: 0
   listItemIsCheckOut: []
-  isReturnOriginal: 0
-  _money: {fileID: 5421267536522100032, guid: 3e0c0d15c2c39f14c9efe3902d336b85, type: 3}
-  _MoneyNeedCheckOut: 0
 --- !u!195 &-7007016155161262792
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -451,12 +444,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: FreeSample_backpack_1_onWear_WithAccessoryLogic
       objectReference: {fileID: 0}
-    - target: {fileID: 3408046687074563823, guid: b64c6c041dbec7c4c9a119efad9e4976, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3408046687074563823, guid: b64c6c041dbec7c4c9a119efad9e4976, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

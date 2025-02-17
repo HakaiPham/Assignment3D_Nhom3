@@ -8,7 +8,6 @@ public class ItemStore : MonoBehaviour
     public string ItemName;
     public bool isPurchased = false;
     public bool isLocked = false; // Trạng thái khóa để ngăn chặn việc mua chung
-    public int price = 3;
     private void Awake()
     {
         ItemName = gameObject.name;
