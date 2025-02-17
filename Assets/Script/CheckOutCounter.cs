@@ -74,24 +74,23 @@ public class CheckOutCounter : MonoBehaviour
     {
         StartCoroutine(ReturnCurrentMoney(obj, money));
     }
-    IEnumerator ReturnCurrentMoney(GameObject obj,int money) 
+    IEnumerator ReturnCurrentMoney(GameObject obj, int money)
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.T));
+        Debug.Log("money: " + money);
         Destroy(obj);
         UpdateTienThua();
         rayCastCheckOutManager.ResetLaiMoneyCount();
+
         // Kiểm tra lại giá trị tiền thừa thực tế
-        if (_TienThua >= money)
+        if (_TienThua + money <= tienthuahientai) // Đảm bảo không làm tăng tiền quá mức
         {
-            _TienThua -= money;
-        }
-        else
-        {
-            _TienThua = tienthuahientai ; // Đảm bảo không bị lỗi trừ quá số tiền hiện có
+            _TienThua += money; // Cộng lại số tiền đã thối nhầm
         }
 
         _TienThuaText.text = _TienThua + "$";
     }
+
     public bool CheckPlayerCurrentMoney(int currentTienThua)
     {
         int currentMoney = _playerMoney.UpdateCurrentMoneY();
