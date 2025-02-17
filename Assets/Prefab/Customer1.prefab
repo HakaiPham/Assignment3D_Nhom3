@@ -75,6 +75,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer1
       objectReference: {fileID: 0}
+    - target: {fileID: 187904287186049807, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
+      propertyPath: m_TagString
+      value: Customer
+      objectReference: {fileID: 0}
     - target: {fileID: 707136990861001141, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -436,6 +440,9 @@ MonoBehaviour:
   _Shelf: []
   hasPurchased: 0
   listItemIsCheckOut: []
+  isReturnOriginal: 0
+  _money: {fileID: 5421267536522100032, guid: 3e0c0d15c2c39f14c9efe3902d336b85, type: 3}
+  _MoneyNeedCheckOut: 0
 --- !u!195 &3489936559339182351
 NavMeshAgent:
   m_ObjectHideFlags: 0
