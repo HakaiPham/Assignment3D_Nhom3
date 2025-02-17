@@ -2227,7 +2227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2740558616234636767, guid: 20675b5c9956b934983ad5295e36e10d, type: 3}
       propertyPath: m_TagString
-      value: ItemStore
+      value: CanPickup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9031,7 +9031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2740558616234636767, guid: 20675b5c9956b934983ad5295e36e10d, type: 3}
       propertyPath: m_TagString
-      value: ItemStore
+      value: CanPickup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
