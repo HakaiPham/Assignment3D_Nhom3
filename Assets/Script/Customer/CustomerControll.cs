@@ -26,14 +26,22 @@ public class CustomerControll : MonoBehaviour
     bool isOnlyStart = false; //cờ này chỉ chạy 1 lần duy nhất
     [SerializeField]
     List<GameObject> listItemIsCheckOut = new List<GameObject>();//Đây là list chứa các vật phẩm được sinh ra khi khách hàng thanh toán
-    //
+    Transform vitrisinhdo;
+    Transform vitrisinhdo1;
+    public bool isReturnOriginal;
+    [SerializeField] GameObject _money;
+    [SerializeField] int _MoneyNeedCheckOut;
+    bool checkTienNhan = false;
+    RayCastCheckOut rayCastCheckOutManager;
     private void Awake()
     {
         if(animator == null)
         {
             animator = GetComponent<Animator>();
         }
-        _GetItemOnScene = GameObject.FindGameObjectsWithTag("ItemStore");
+        vitrisinhdo = GameObject.Find("ViTriSinhDo").gameObject.transform;
+        vitrisinhdo1 = GameObject.Find("ViTriSinhDo1").gameObject.transform;
+        _GetItemOnScene = GameObject.FindGameObjectsWithTag("CanPickup");
         _Shelf = GameObject.FindGameObjectsWithTag("Shelf");
         foreach (var item in _GetItemOnScene)
         {
@@ -42,10 +50,12 @@ public class CustomerControll : MonoBehaviour
     }
     void Start()
     {
+        isReturnOriginal = false;
         agent = GetComponent<NavMeshAgent>();
         originalPosition = transform.position;
         ShoppingItem();
         checkOutManager = FindObjectOfType<CheckOutCounter>();
+        rayCastCheckOutManager = FindObjectOfType<RayCastCheckOut>();
         randomShelf = Random.Range(0, _Shelf.Length);
     }
 
@@ -71,6 +81,7 @@ public class CustomerControll : MonoBehaviour
         {
             // Kiểm tra nếu agent đã về vị trí ban đầu
             float distance = Vector3.Distance(transform.position, originalPosition);
+            isReturnOriginal = true;
             if (distance < 1f)
             {
                 _IsFinishedShopping = true;
@@ -78,6 +89,7 @@ public class CustomerControll : MonoBehaviour
                 // Xóa danh sách vật phẩm và cập nhật trạng thái
                 _ItemNeedShopping.Clear();
                 _IsNextItem = false;
+                Destroy(gameObject); // truong hop khách hàng có mua đồ 
             }
         }
         //bug khi nhân vật mua cùng lúc 2 món hàng cùng loại sẽ xảy ra bug
@@ -121,10 +133,12 @@ public class CustomerControll : MonoBehaviour
         if (!hasPurchased) // điều kiện chạy khi mà object không có mua món hàng nào hoặc món hàng đã được đặt trước
             //và danh sách mua không còn bất kì vật nào thì chạy về vị trí ban đầu
         {
+            isReturnOriginal = true;
             animator.SetBool("IsWalk", true);
             agent.SetDestination(originalPosition);
             yield return new WaitUntil(() => agent.remainingDistance < 0.5f && !agent.pathPending);
             animator.SetBool("IsWalk", false); // Chỉ tắt animation khi thực sự đến nơi
+            Destroy(gameObject);//trường hợp khách hàng không mua đồ
         }
     }
     public void ShoppingItem()
@@ -139,6 +153,10 @@ public class CustomerControll : MonoBehaviour
         foreach (GameObject item in _ListItem)
         {
             ItemStore shoppingItem = item.GetComponent<ItemStore>();
+            if(shoppingItem == null)
+            {
+                Debug.Log("Null");
+            }
 
             // Kiểm tra nếu món đồ chưa được mua và không bị khóa
             if (!shoppingItem.isPurchased && !shoppingItem.isLocked)
@@ -147,7 +165,7 @@ public class CustomerControll : MonoBehaviour
                 shoppingItem.isPurchased = true;  // Đánh dấu là đã mua
                 purchasedItems.Add(item);
                 hasPurchased = true;
-                if(purchasedItems.Count == countItem)
+                if(purchasedItems.Count == 1)
                 {
                     break;//Nếu đủ số lượng thì thoát ra khỏi vòng lặp
                 }
@@ -176,45 +194,28 @@ public class CustomerControll : MonoBehaviour
             Vector3 checkOutPoint = checkOutManager.CheckoutPoint().transform.position;
             distance = Vector3.Distance(checkOutPoint, transform.position);
             checkOutManager.AddCustomerToQueue(this.gameObject);
-            //if (!checkOutIsBusy)
-            //{
-            //    checkOutManager.AddCustomerToQueue(this.gameObject);
-            //    _IsComingCheckOut = true;//đang đi tới quầy 
-            //}
-            //if (!_IsComingCheckOut)//Không có tời quầy thanh toán
-            //{
-            //    animator.SetBool("IsWalk", false);
-            //}
             // Nếu Player đã đến quầy thanh toán
             if (distance < 0.5f)
             {
                 animator.SetBool("IsWalk", false);
-                // Hiển thị các vật phẩm đã mua
-                // Chỉ tạo vật phẩm nếu danh sách rỗng (tránh tạo trùng lặp)
                 foreach (GameObject item in _ItemNeedShopping)
                 {
                     if (itemCount == _ItemNeedShopping.Count) break;
                     itemCount++;
-                    GameObject items = Instantiate(item, transform.position, Quaternion.identity);
+                    int randomPositionSpawn = Random.Range(0, 2);
+                    GameObject items = null;
+                    if (randomPositionSpawn == 0)
+                    {
+                         items = Instantiate(item, vitrisinhdo.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        items = Instantiate(item, vitrisinhdo1.position, Quaternion.identity);
+
+                    }
                     items.transform.SetParent(gameObject.transform);
                     items.SetActive(true);
                     listItemIsCheckOut.Add(items);
-                }
-                // Nếu người chơi nhấn H, xác nhận thanh toán hoàn tất
-                if (Input.GetKeyDown(KeyCode.H))
-                {
-                    checkOutManager.CheckOutCompleted();
-                    foreach (GameObject item in listItemIsCheckOut)
-                    {
-                        Destroy(item);
-                    }
-                    // Khi kết thúc 1 ngày thì nó sẽ tự động xóa đi tất cả các item đã bị ẩn đi (mua đi)
-                    _ListItem.Clear();
-                    _GetItemOnScene = new GameObject[0]; // Reset mảng 
-                    listItemIsCheckOut.Clear();
-                    animator.SetBool("IsWalk", true);
-                    _HasCompletedCheckout = true; // Cờ xác nhận thanh toán
-                    agent.SetDestination(originalPosition); // Di chuyển về vị trí ban đầu
                 }
             }
         }
@@ -229,5 +230,81 @@ public class CustomerControll : MonoBehaviour
         yield return new WaitForSeconds(2f);
         _IsNextItem = false;
         agent.speed = 3.5f;
+    }
+    public bool CheckCustomerReturnOriginal()
+    {
+        return isReturnOriginal;
+    }
+    public void CheckOutItem(GameObject item, int money)
+    {
+        checkOutManager.TongTien(money);
+        listItemIsCheckOut.Remove(item);
+        _ListItem.Remove(item);
+        Destroy(item);
+
+        if (listItemIsCheckOut.Count == 0)
+        {
+            if (!checkTienNhan)
+            {
+                checkOutManager.TienNhan();
+                checkTienNhan = true;
+            }
+
+            GameObject moneyCheckOut = Instantiate(_money, vitrisinhdo.position, Quaternion.identity);
+            int tienThua = checkOutManager.TienThua();
+
+            // Bắt đầu Coroutine để kiểm tra tiền thừa
+            StartCoroutine(CheckTienThuaCoroutine(moneyCheckOut,tienThua));
+        }
+    }
+
+    // Coroutine kiểm tra tiền thừa
+    private IEnumerator CheckTienThuaCoroutine(GameObject moneyCheckOut,int tienthua)
+    {
+        while (tienthua > 0)
+        {
+            // Đợi 0.1 giây mỗi lần kiểm tra để tránh tốn tài nguyên CPU
+            yield return new WaitForSeconds(0.1f);
+            tienthua = checkOutManager.UpdateTienThua();
+        }
+        // Chờ đến khi người chơi nhấn 'H' để kết thúc
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.H));
+        int currentTienThua = checkOutManager.UpdateTienThua();
+        int tongTienHienTai = checkOutManager.ChekSoLuongTongTien();
+        bool checkPlayerMoneyCurrent = checkOutManager.CheckPlayerCurrentMoney(currentTienThua);
+        Debug.Log("checkPlayerMoneyCurrent: " + checkPlayerMoneyCurrent);
+        if (currentTienThua > 0 || !checkPlayerMoneyCurrent)
+        {
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.H));
+
+            // Khi bấm H lần nữa, gọi lại chính nó để kiểm tra lại
+            StartCoroutine(CheckTienThuaCoroutine(moneyCheckOut, currentTienThua));
+            yield break; // Dừng phiên hiện tại, nhưng có thể gọi lại từ đầu
+        }
+        if(currentTienThua < 0)
+        {
+            checkOutManager.TruTienToPlayer(currentTienThua);
+            Debug.Log("Tien Thua hien tai: " + currentTienThua);
+
+        }
+        else if(currentTienThua == 0)
+        {
+            checkOutManager.CongTienToPlayer(tongTienHienTai);
+        }
+        rayCastCheckOutManager.KiemTraTienThuaHienTai();
+        checkOutManager.ResetCurrentStayCheckOut();
+        Destroy(moneyCheckOut);
+        EndShoppingSession();
+    }
+
+    public void EndShoppingSession()
+    {
+        checkOutManager.CheckOutCompleted();
+        _GetItemOnScene = new GameObject[0]; // Reset mảng
+        _ListItem.Clear();
+        listItemIsCheckOut.Clear();
+        animator.SetBool("IsWalk", true);
+        _HasCompletedCheckout = true; // Đánh dấu hoàn tất thanh toán
+        agent.SetDestination(originalPosition); // Di chuyển về vị trí ban đầu
     }
 }
