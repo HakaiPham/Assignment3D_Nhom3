@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer4
       objectReference: {fileID: 0}
+    - target: {fileID: 187904287186049807, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
+      propertyPath: m_TagString
+      value: Customer
+      objectReference: {fileID: 0}
     - target: {fileID: 707136990861001141, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -211,7 +215,7 @@ PrefabInstance:
     - target: {fileID: 7934037344855887186, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 8b9a677f24793ba45bdc27a1dab7745e, type: 2}
+      objectReference: {fileID: 9100000, guid: 47e7cc553f037274abcfbd8e8228cf2e, type: 2}
     - target: {fileID: 8250890617152530238, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.10840524
@@ -284,6 +288,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 187904287186049807, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4776011795710047105}
+    - targetCorrespondingSourceObject: {fileID: 187904287186049807, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8881065999816787824}
   m_SourcePrefab: {fileID: 100100000, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
 --- !u!4 &655067499585239673 stripped
 Transform:
@@ -367,6 +374,31 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-8881065999816787824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893527290137862322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66efb1b4f35bfc943bc826605c33f324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ListItem: []
+  _GetItemOnScene: []
+  _ItemNeedShopping: []
+  _CurrentTargetIndex: 0
+  _IsFinishedShopping: 0
+  _HasCompletedCheckout: 0
+  distance: 0
+  _Shelf: []
+  hasPurchased: 0
+  listItemIsCheckOut: []
+  isReturnOriginal: 0
+  _money: {fileID: 5421267536522100032, guid: 3e0c0d15c2c39f14c9efe3902d336b85, type: 3}
+  _MoneyNeedCheckOut: 0
 --- !u!1001 &5489035617803654697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -375,6 +407,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 655067499585239673}
     m_Modifications:
+    - target: {fileID: 1800075518, guid: 34c1d50008d82c945844fe8cb141d42b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2312118220671283773, guid: 34c1d50008d82c945844fe8cb141d42b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.6395874
@@ -419,7 +455,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: FreeSample_anniversy_hat_1_onWear_pink_WithAccessoryLogic
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3124825142021171335, guid: 34c1d50008d82c945844fe8cb141d42b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1800075518, guid: 34c1d50008d82c945844fe8cb141d42b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
