@@ -14,13 +14,23 @@ public class ShopManager : MonoBehaviour
     }
 
     public List<ShopItem> shopItems = new List<ShopItem>();
-    public float money = 1000f; // Player's money
     public TextMeshProUGUI moneyText;
     public Transform spawnPoint; // Where the item will spawn
 
+    private PlayerCurrentMoney playerMoney; // Reference to PlayerCurrentMoney
+
     void Start()
     {
-        moneyText.text = "Money: " + money.ToString("F2");
+        // Find PlayerCurrentMoney in the scene
+        playerMoney = FindObjectOfType<PlayerCurrentMoney>();
+
+        if (playerMoney == null)
+        {
+            Debug.LogError("PlayerCurrentMoney script not found in the scene!");
+            return;
+        }
+
+        UpdateMoneyUI(); // Set initial UI money value
 
         for (int i = 1; i <= 43; i++)
         {
@@ -40,10 +50,12 @@ public class ShopManager : MonoBehaviour
 
         if (item != null)
         {
-            if (money >= item.price)
+            int currentMoney = playerMoney.UpdateCurrentMoneY();
+
+            if (currentMoney >= item.price)
             {
-                money -= item.price;
-                moneyText.text = "Money: " + money.ToString("F2");
+                playerMoney.TruTien(item.price); // Deduct money
+                UpdateMoneyUI(); // Update UI
                 SpawnItem(item.prefab);
                 Debug.Log($"Bought {item.name} for {item.price}!");
             }
@@ -67,6 +79,14 @@ public class ShopManager : MonoBehaviour
         else
         {
             Debug.LogError("Missing Item Prefab or Spawn Point!");
+        }
+    }
+
+    void UpdateMoneyUI()
+    {
+        if (moneyText != null)
+        {
+            moneyText.text = "Money: " + playerMoney.UpdateCurrentMoneY() + "$";
         }
     }
 }

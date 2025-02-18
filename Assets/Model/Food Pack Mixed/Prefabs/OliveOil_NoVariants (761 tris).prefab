@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2642429582426844766}
   - component: {fileID: -8934290805520589481}
   - component: {fileID: 5278837943712875626}
+  - component: {fileID: -547703950677168400}
   m_Layer: 0
   m_Name: OliveOil_NoVariants (761 tris)
   m_TagString: CanPickup
@@ -31,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4763188008125497577}
   m_Father: {fileID: 0}
@@ -161,9 +162,25 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2.0053852
-  m_Height: 17.637667
+  m_Height: 37.86
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-547703950677168400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663158576358738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc56b066d9fbbd94fa3bc9fa928f8948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: 
+  isPurchased: 0
+  isLocked: 0
+  price: 10
 --- !u!1 &4001566849328561102
 GameObject:
   m_ObjectHideFlags: 0

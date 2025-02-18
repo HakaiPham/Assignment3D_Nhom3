@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 95356730577215970}
   - component: {fileID: 6595985275361045366}
   - component: {fileID: 8818929215458610378}
+  - component: {fileID: -5129488063059278790}
   m_Layer: 0
   m_Name: Potato
-  m_TagString: Untagged
+  m_TagString: CanPickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -29.919998, y: 2.1546428, z: -96.74}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4832091837249454}
   - {fileID: 4267863535854462}
@@ -106,9 +107,25 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 37.86
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5129488063059278790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222478968052948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc56b066d9fbbd94fa3bc9fa928f8948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: 
+  isPurchased: 0
+  isLocked: 0
+  price: 5
 --- !u!1 &1424389312109300
 GameObject:
   m_ObjectHideFlags: 0

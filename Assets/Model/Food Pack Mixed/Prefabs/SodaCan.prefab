@@ -300,9 +300,10 @@ GameObject:
   - component: {fileID: 95344712446959336}
   - component: {fileID: -5504979964650527766}
   - component: {fileID: 2759502774769101299}
+  - component: {fileID: -227325047658804762}
   m_Layer: 0
   m_Name: SodaCan
-  m_TagString: Untagged
+  m_TagString: CanPickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -317,8 +318,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -39.37, y: 5.9435883, z: -49.4702}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4714278999340782}
   - {fileID: 4387172043172604}
@@ -394,9 +395,25 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 37.86
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-227325047658804762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414292103272000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc56b066d9fbbd94fa3bc9fa928f8948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: 
+  isPurchased: 0
+  isLocked: 0
+  price: 10
 --- !u!1 &1540937101032602
 GameObject:
   m_ObjectHideFlags: 0

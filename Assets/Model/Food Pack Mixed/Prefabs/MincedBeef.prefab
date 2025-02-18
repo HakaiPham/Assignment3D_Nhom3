@@ -97,9 +97,10 @@ GameObject:
   - component: {fileID: 95002892264439440}
   - component: {fileID: 54843173920235044}
   - component: {fileID: -3198355944608541401}
+  - component: {fileID: 1021909884578187694}
   m_Layer: 0
   m_Name: MincedBeef
-  m_TagString: Untagged
+  m_TagString: CanPickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,8 +115,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -38.754234, y: 1.35032, z: -84.30563}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4250157070999570}
   - {fileID: 4045496409713566}
@@ -191,9 +192,25 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 37.86
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1021909884578187694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240567862641342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc56b066d9fbbd94fa3bc9fa928f8948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: 
+  isPurchased: 0
+  isLocked: 0
+  price: 10
 --- !u!1 &1623389967705908
 GameObject:
   m_ObjectHideFlags: 0
