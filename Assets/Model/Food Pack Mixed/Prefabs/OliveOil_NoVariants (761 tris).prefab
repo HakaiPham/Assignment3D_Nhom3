@@ -162,7 +162,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2.0053852
-  m_Height: 37.86
+  m_Height: 10.1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-547703950677168400
@@ -180,7 +180,7 @@ MonoBehaviour:
   ItemName: 
   isPurchased: 0
   isLocked: 0
-  price: 10
+  price: 35
 --- !u!1 &4001566849328561102
 GameObject:
   m_ObjectHideFlags: 0
