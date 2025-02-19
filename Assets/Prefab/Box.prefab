@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9803938259dc68640b7a984a3f9d95bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Cylendo
-  itemID: 1
-  item: {fileID: 1280969666934756, guid: 6a7f9fef53fe12d4fb1f9cc72c88b568, type: 3}
-  Quantity: 30
+  itemID: 0
+  item: {fileID: 0}
+  amount: 0
+  name: 
