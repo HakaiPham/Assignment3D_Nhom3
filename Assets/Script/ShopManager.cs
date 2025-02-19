@@ -15,7 +15,8 @@ public class ShopManager : MonoBehaviour
 
     public List<ShopItem> shopItems = new List<ShopItem>();
     public TextMeshProUGUI moneyText;
-    public Transform spawnPoint; // Where the item will spawn
+    public Transform spawnPoint; // Where the box will spawn
+    public GameObject boxPrefab; // The container box prefab
 
     private PlayerCurrentMoney playerMoney; // Reference to PlayerCurrentMoney
 
@@ -56,7 +57,7 @@ public class ShopManager : MonoBehaviour
             {
                 playerMoney.TruTien(item.price); // Deduct money
                 UpdateMoneyUI(); // Update UI
-                SpawnItem(item.prefab);
+                SpawnItemBox(item);
                 Debug.Log($"Bought {item.name} for {item.price}!");
             }
             else
@@ -70,16 +71,33 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    void SpawnItem(GameObject itemPrefab)
+    void SpawnItemBox(ShopItem item)
     {
-        if (itemPrefab != null && spawnPoint != null)
+        if (boxPrefab == null || spawnPoint == null)
         {
-            Instantiate(itemPrefab, spawnPoint.position, Quaternion.identity);
+            Debug.LogError("Box prefab or spawn point missing!");
+            return;
         }
-        else
+
+        // Create a box at the spawn point
+        GameObject box = Instantiate(boxPrefab, spawnPoint.position, Quaternion.identity);
+        box.name = "Item Box - " + item.name;
+
+        // Attach the RefillBox script to manage item storage
+        RefillBox refillBox = box.GetComponent<RefillBox>();
+        if (refillBox == null)
         {
-            Debug.LogError("Missing Item Prefab or Spawn Point!");
+            Debug.LogError("RefillBox script missing on the box prefab!");
+            return;
         }
+
+        // Set item details in RefillBox
+        refillBox.itemID = item.id;
+        refillBox.item = item.prefab;
+        refillBox.amount = Random.Range(3, 5); // Random quantity between 3-4
+        refillBox.name = "Box of " + item.name;
+
+        Debug.Log($"Spawned a box containing {refillBox.amount} of {item.name}.");
     }
 
     void UpdateMoneyUI()
