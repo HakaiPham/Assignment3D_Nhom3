@@ -35,7 +35,7 @@ public class PlayerCurrentMoney : MonoBehaviour
     public void TruTien(int money)
     {
         moneyText.gameObject.SetActive(true);
-        currentMoney += money;
+        currentMoney -= money;
         currentMoneyText.text = "" + currentMoney + "$";
         moneyText.text = "-" + money + "$";
         animator.SetTrigger("TruTien");
