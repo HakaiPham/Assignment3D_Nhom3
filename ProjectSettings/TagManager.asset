@@ -9,6 +9,15 @@ TagManager:
   - Goods
   - Shelf
   - ItemStore
+  - Customer
+  - NapBan
+  - 1USD
+  - 5USD
+  - 10USD
+  - 20USD
+  - 50USD
+  - 100USD
+  - CheckOut
   layers:
   - Default
   - TransparentFX
