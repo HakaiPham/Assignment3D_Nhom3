@@ -14,7 +14,7 @@ public class PlacementPointCheck : MonoBehaviour, IInteraction
         {
             if(point.active == false)
             {
-                point.GetComponent<PlacementPoint>().isInBox = true;
+                //point.GetComponent<PlacementPoint>().isInBox = true;
                 point.SetActive(true);
                 Instantiate(item, point.transform.position, point.transform.rotation);
                 return;

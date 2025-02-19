@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class PlacementPoint : MonoBehaviour
 {
-    public bool isInBox = true;
+    public bool isInBox;
 
     private void Start()
     {
-        isInBox = true;
+        //isInBox = true;
     }
 
     void Update(){
@@ -32,6 +32,10 @@ public class PlacementPoint : MonoBehaviour
     void OnTriggerStay(Collider other){
         if(other.CompareTag("Goods")){
             isInBox = true;
+        }
+        else
+        {
+            isInBox = false;
         }
     }
     void OnTriggerExit(Collider other){
