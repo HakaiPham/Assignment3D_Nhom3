@@ -55,7 +55,8 @@ public class ShopManager : MonoBehaviour
 
             if (currentMoney >= item.price)
             {
-                playerMoney.TruTien(item.price); // Deduct money
+                playerMoney.TruTien(-item.price); // Deduct money
+                FindObjectOfType<DailyTransactionTracker>().AddExpense(item.price);
                 UpdateMoneyUI(); // Update UI
                 SpawnItemBox(item);
                 Debug.Log($"Bought {item.name} for {item.price}!");

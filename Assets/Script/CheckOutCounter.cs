@@ -111,10 +111,13 @@ public class CheckOutCounter : MonoBehaviour
     public void CongTienToPlayer(int money)
     {
         _playerMoney.CongTien(money);
+        FindObjectOfType<DailyTransactionTracker>().AddIncome(money);
     }
     public void TruTienToPlayer(int money)
     {
         _playerMoney.TruTien(money);
+        FindObjectOfType<DailyTransactionTracker>().AddExpense(money);
+
     }
     // Hàm random số tiền khách đưa
     public int GetRandomPayment(int totalPrice)
