@@ -55,8 +55,8 @@ public class PlayerCurrentMoney : MonoBehaviour
     
     public void CongExp(int exp)
     {
-        ExpSlider.value += exp;
-        if (ExpSlider.value >= maxExp)
+        this.exp += exp;
+        if (this.exp >= maxExp)
         {
             ExpSlider.value = 0;
             maxExp = maxExp * 1.1f;
@@ -64,7 +64,7 @@ public class PlayerCurrentMoney : MonoBehaviour
         }
         
         levelText.text = "Level " + level;
-        ExpSlider.value = exp;
+        ExpSlider.value = this.exp;
         ExpSlider.maxValue = maxExp;
     }
     
@@ -77,5 +77,11 @@ public class PlayerCurrentMoney : MonoBehaviour
     {
         Debug.Log($"[UpdateCurrentMoneY] Player Money Updated: {currentMoney}");
         return currentMoney;
+    }
+    
+    public int UpdateLevel()
+    {
+        Debug.Log($"[UpdateLevel] Player Level Updated: {level}");
+        return level;
     }
 }

@@ -13,14 +13,15 @@ public class PlacementPoint : MonoBehaviour
         //isInBox = true;
     }
 
-    void Update(){
+    /*void Update(){
         if(isInBox){
             Debug.Log("Found in box!");
-        } else {
+            gameObject.SetActive(true);
+        } /*else {
             Debug.Log("Not in box!");
             gameObject.SetActive(false);
-        }
-    }
+        }#1#
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,15 +30,7 @@ public class PlacementPoint : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other){
-        if(other.CompareTag("Goods")){
-            isInBox = true;
-        }
-        else
-        {
-            isInBox = false;
-        }
-    }
+  
     void OnTriggerExit(Collider other){
         if(other.CompareTag("Goods")){
             isInBox = false;
