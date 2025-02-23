@@ -19,10 +19,10 @@ public class TimeController : MonoBehaviour
     private Light sunLight;
 
     [SerializeField]
-    public float sunriseHour;
+    private float sunriseHour;
 
     [SerializeField]
-    public float sunsetHour;
+    private float sunsetHour;
 
     [SerializeField]
     private Color dayAmbientLight;
@@ -47,7 +47,19 @@ public class TimeController : MonoBehaviour
     private TimeSpan sunriseTime;
 
     private TimeSpan sunsetTime;
-    // Start is called before the first frame update
+
+    [SerializeField]
+    private GameObject summaryMenu; // UI tổng kết ngày
+
+    private int currentDay = 1; // Ngày bắt đầu từ 1
+    [SerializeField]
+    private TextMeshProUGUI dayText; // Text hiển thị ngày
+
+    [SerializeField]
+    private GameObject KhachHang; // Đối tượng khách hàng sẽ bị tắt lúc 20:00
+
+
+    public CustomerSpawnSystem SpawnManager;
     void Start()
     {
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
@@ -62,6 +74,17 @@ public class TimeController : MonoBehaviour
         UpdateTimeOfDay();
         RotateSun();
         UpdateLightSettings();
+        if (currentTime.Hour >= 14 && currentTime.Minute >= 0)
+        {
+            SpawnManager.enabled = false;
+
+        }
+        else
+        {
+            SpawnManager.enabled = true;
+
+        }
+
     }
 
     private void UpdateTimeOfDay()
@@ -71,8 +94,66 @@ public class TimeController : MonoBehaviour
         {
             timeText.text = currentTime.ToString("HH:mm");
         }
+
+        // Cập nhật text ngày
+        if (dayText != null)
+        {
+            dayText.text = $"Day {currentDay}";
+        }
+
+        // Kiểm tra nếu qua 00:00 thì ngày +1
+        if (currentTime.Hour == 0 && currentTime.Minute == 0)
+        {
+            currentDay++;
+        }
+
+        // Kiểm tra nếu đến 21:00 thì bật menu tổng kết
+        if (currentTime.Hour == 21 && currentTime.Minute == 0)
+        {
+            summaryMenu.SetActive(true);
+           
+            Cursor.visible = true; // Hiện con trỏ chuột
+            Cursor.lockState = CursorLockMode.None; // Cho phép di chuyển chuột tự do
+            //Time.timeScale = 0; // Tạm dừng thời gian
+        }
+
+        //// Kiểm tra nếu đến 20:00 thì tắt GameObject "KhachHang"
+        //if (currentTime.Hour == 14 && currentTime.Minute == 0)
+        //{
+        //    if (KhachHang != null)
+        //    {
+        //        KhachHang.SetActive(false);
+        //    }
+        //}
+
+        //// Bật lại KhachHang lúc 6:00 sáng
+        //if (currentTime.Hour == 7 && currentTime.Minute == 0)
+        //{
+        //    if (KhachHang != null)
+        //    {
+        //        KhachHang.SetActive(true);
+        //    }
+
+        //}
     }
 
+   
+    public void SkipToMorning() // dung de skip ngay
+    {
+        currentDay++; // Tăng ngày lên 1
+        currentTime = DateTime.Now.Date + TimeSpan.FromHours(6); // Đặt thời gian về 6:00 sáng
+        summaryMenu.SetActive(false);
+        Cursor.visible = false; // Ẩn con trỏ chuột
+        Cursor.lockState = CursorLockMode.Locked; // Khóa con trỏ vào giữa màn hình
+        //Time.timeScale = 1; // Tiếp tục thời gian
+
+        
+        // Cập nhật lại UI ngay lập tức
+        if (dayText != null)
+        {
+            dayText.text = $"Day {currentDay}";
+        }
+    }
     private void RotateSun()
     {
         float sunLightRotation;
@@ -120,5 +201,10 @@ public class TimeController : MonoBehaviour
     public DateTime GetCurrentTime()
     {
         return currentTime;
+    }
+
+    public int GetCurrentDay()
+    {
+        return currentDay;
     }
 }
