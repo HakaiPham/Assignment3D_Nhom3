@@ -18,6 +18,7 @@ TagManager:
   - 50USD
   - 100USD
   - CheckOut
+  - NPC
   layers:
   - Default
   - TransparentFX

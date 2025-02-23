@@ -6,22 +6,21 @@ using UnityEngine;
 
 public class PlacementPoint : MonoBehaviour
 {
-    public bool isInBox;
+    public bool isInBox = true;
 
     private void Start()
     {
-        //isInBox = true;
+        isInBox = true;
     }
 
-    /*void Update(){
+    void Update(){
         if(isInBox){
             Debug.Log("Found in box!");
-            gameObject.SetActive(true);
-        } /*else {
+        } else {
             Debug.Log("Not in box!");
             gameObject.SetActive(false);
-        }#1#
-    }*/
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -30,7 +29,11 @@ public class PlacementPoint : MonoBehaviour
         }
     }
 
-  
+    void OnTriggerStay(Collider other){
+        if(other.CompareTag("Goods")){
+            isInBox = true;
+        }
+    }
     void OnTriggerExit(Collider other){
         if(other.CompareTag("Goods")){
             isInBox = false;

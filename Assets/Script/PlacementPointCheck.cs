@@ -12,11 +12,10 @@ public class PlacementPointCheck : MonoBehaviour, IInteraction
         Debug.Log("Interacting with object:" + gameObject.name);
         foreach (GameObject point in placementPoints)
         {
-            if(point.GetComponent<PlacementPoint>().isInBox == false)
+            if(point.active == false)
             {
-                /*point.SetActive(true);*/
                 point.GetComponent<PlacementPoint>().isInBox = true;
-               
+                point.SetActive(true);
                 Instantiate(item, point.transform.position, point.transform.rotation);
                 return;
             }
