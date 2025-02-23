@@ -6,10 +6,12 @@ using UnityEngine;
 public class NPCSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] npcPrefabs; // NPC Prefabs to spawn
-    [SerializeField] private Transform[] spawnPoints; // Points where NPCs will spawn
-    [SerializeField] private Transform endPoint; // End point where NPCs are destroyed
+    [SerializeField] private Transform[] spawnPoints; // Spawn locations
+    [SerializeField] private Transform[] waypoints; // Path waypoints
+    [SerializeField] private Transform endPoint; // Final destination
+    [SerializeField] private TimeController timeController; // Reference to the TimeController
 
-    private List<GameObject> activeNPCs = new List<GameObject>(); // List to keep track of spawned NPCs
+    private List<GameObject> activeNPCs = new List<GameObject>(); // Track active NPCs
 
     void Start()
     {
@@ -20,51 +22,45 @@ public class NPCSpawner : MonoBehaviour
     {
         while (true)
         {
-            // Spawn a new NPC
+            DateTime currentTime = timeController.GetCurrentTime();
+            TimeSpan sunrise = TimeSpan.FromHours(timeController.sunriseHour);
+            TimeSpan sunset = TimeSpan.FromHours(timeController.sunsetHour);
+
+            float spawnInterval;
+
+            // Faster spawn rate during the day, slower at night
+            if (currentTime.TimeOfDay >= sunrise && currentTime.TimeOfDay <= sunset)
+            {
+                spawnInterval = UnityEngine.Random.Range(1f, 5f); // Daytime: Faster spawn
+            }
+            else
+            {
+                spawnInterval = UnityEngine.Random.Range(5f, 10f); // Nighttime: Slower spawn
+            }
+
             SpawnNPC();
-
-            // Check if NPCs have reached the end point and destroy them
-            CheckNPCsAtEndPoint();
-
-            // Wait for a random interval between 2 to 10 seconds before spawning the next NPC
-            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 7.5f));
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
     void SpawnNPC()
     {
-        // Pick a random spawn point and NPC prefab
         Transform spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
         GameObject npcPrefab = npcPrefabs[UnityEngine.Random.Range(0, npcPrefabs.Length)];
 
-        // Instantiate NPC at the spawn point
         GameObject npc = Instantiate(npcPrefab, spawnPoint.position, spawnPoint.rotation);
         activeNPCs.Add(npc);
 
-        // Add the end point to the NPC's movement script
         NPCMovement npcMovement = npc.GetComponent<NPCMovement>();
         if (npcMovement != null)
         {
-            npcMovement.endPoint = endPoint; // Set the endpoint for the NPC
-            npcMovement.OnNPCDestroyed += () => RemoveNPCFromList(npc); // Remove from list when destroyed
+            List<Transform> fullPath = new List<Transform>(waypoints);
+            fullPath.Add(endPoint); // Add endpoint to the waypoint list
+            npcMovement.waypoints = fullPath.ToArray();
+            npcMovement.OnNPCDestroyed += () => RemoveNPCFromList(npc);
         }
     }
 
-    void CheckNPCsAtEndPoint()
-    {
-        // Loop through each active NPC and check if it's reached the endpoint
-        foreach (GameObject npc in activeNPCs)
-        {
-            NPCMovement npcMovement = npc.GetComponent<NPCMovement>();
-            if (npcMovement != null && npcMovement.HasReachedEndPoint(endPoint.position))
-            {
-                Destroy(npc); // Destroy NPC
-                activeNPCs.Remove(npc); // Remove from the active list
-            }
-        }
-    }
-
-    // Method to remove NPC from the list when it is destroyed
     void RemoveNPCFromList(GameObject npc)
     {
         activeNPCs.Remove(npc);

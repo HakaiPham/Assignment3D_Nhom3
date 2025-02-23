@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC4
       objectReference: {fileID: 0}
+    - target: {fileID: 187904287186049807, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
+      propertyPath: m_TagString
+      value: NPC
+      objectReference: {fileID: 0}
     - target: {fileID: 707136990861001141, guid: d674b564acadde849a2cd28ce63525a8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -383,11 +387,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  detectionDistance: 2
   rotationSpeed: 5
+  detectionDistance: 2
+  separationDistance: 1.5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
+  middlePoint: {fileID: 5288293628715102876, guid: 4852ab1c1b306ef45b3cc3dd5c3ac0f6, type: 3}
+  endPoint: {fileID: 4617917024712007588, guid: dbde33f2771309b49a08aad5a292da1c, type: 3}
 --- !u!1001 &8538474112977093941
 PrefabInstance:
   m_ObjectHideFlags: 0

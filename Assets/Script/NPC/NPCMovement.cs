@@ -8,54 +8,63 @@ public class NPCMovement : MonoBehaviour
     public float detectionDistance = 2f;
     public float rotationSpeed = 5f;
     public LayerMask obstacleMask;
+    public event Action OnNPCDestroyed;
+    public Transform[] waypoints;
 
-    public event Action OnNPCDestroyed; // Event for when NPC is destroyed
-    public Transform endPoint; // Endpoint for NPC to reach
     private Animator animator;
     private bool isAvoidingObstacle = false;
+    private int currentWaypointIndex = 0;
 
     void Awake()
     {
-        animator = GetComponent<Animator>(); // Get the Animator component
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        MoveForward();
+        if (waypoints == null || waypoints.Length == 0) return;
 
-        // Check if the NPC has reached the endpoint
-        if (HasReachedEndPoint(endPoint.position))
-        {
-            Destroy(gameObject); // Destroy the NPC
-            OnNPCDestroyed?.Invoke(); // Trigger NPC destroyed event
-        }
+        MoveTowardsWaypoint();
     }
 
-    void MoveForward()
+    void MoveTowardsWaypoint()
     {
-        if (isAvoidingObstacle) return; // Avoid stopping movement during rotation
+        if (isAvoidingObstacle) return;
+
+        Vector3 targetPosition = waypoints[currentWaypointIndex].position;
+        Vector3 direction = (targetPosition - transform.position).normalized;
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, detectionDistance, obstacleMask))
         {
-            StartCoroutine(AvoidObstacle());
+            if (hit.collider.gameObject != this.gameObject)
+            {
+                StartCoroutine(AvoidObstacle());
+            }
         }
         else
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
-            animator.SetBool("IsWalk", true); // Set walking animation
-        }
-    }
+            transform.position += direction * speed * Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+            animator.SetBool("IsWalk", true);
 
-    public bool HasReachedEndPoint(Vector3 endPointPosition)
-    {
-        return Vector3.Distance(transform.position, endPointPosition) < 1f; // NPC has reached the endpoint
+            // Increased threshold for reaching waypoints
+            if (Vector3.Distance(transform.position, targetPosition) < 1.5f)
+            {
+                currentWaypointIndex++;
+                if (currentWaypointIndex >= waypoints.Length)
+                {
+                    OnNPCDestroyed?.Invoke();
+                    Destroy(gameObject);
+                }
+            }
+        }
     }
 
     IEnumerator AvoidObstacle()
     {
         isAvoidingObstacle = true;
-        animator.SetBool("IsWalk", false); // Stop walking animation while avoiding
+        animator.SetBool("IsWalk", false);
 
         float randomTurn = UnityEngine.Random.Range(-90f, 90f);
         Quaternion targetRotation = Quaternion.Euler(0, transform.eulerAngles.y + randomTurn, 0);
@@ -69,6 +78,6 @@ public class NPCMovement : MonoBehaviour
         }
 
         isAvoidingObstacle = false;
-        animator.SetBool("IsWalk", true); // Resume walking animation
+        animator.SetBool("IsWalk", true);
     }
 }

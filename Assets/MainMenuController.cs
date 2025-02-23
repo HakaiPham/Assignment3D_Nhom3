@@ -16,40 +16,30 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
-        // Load the saved sound settings
-        float bgMusicVolume = PlayerPrefs.GetFloat("BackgroundMusicVolume", 1f); // Default is 1 (max)
-        float sfxVolume = PlayerPrefs.GetFloat("SoundEffectsVolume", 1f); // Default is 1 (max)
-
-        // Apply the saved volume settings
-        backgroundMusicSlider.value = bgMusicVolume;
-        soundEffectsSlider.value = sfxVolume;
-        backgroundMusic.volume = bgMusicVolume;
-        soundEffectsAudioSource.volume = sfxVolume;
+        // Load saved sound settings
+        LoadSoundSettings();
     }
 
     #region Main Menu
     public void OnStartButtonClicked()
     {
-        // Load the game scene (assuming it's called "GameScene")
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("ScenceGame");
     }
 
     public void OnContinueButtonClicked()
     {
-        // Load the saved game or continue from where the player left off
-        // You can implement your own logic to load saved data here
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("ScenceGame");
     }
 
     public void OnQuitButtonClicked()
     {
-        // Quit the game
+        // Save sound settings before quitting
+        SaveSoundSettings();
         Application.Quit();
     }
 
     public void OnOptionsButtonClicked()
     {
-        // Show the options menu and hide the main menu
         mainMenuPanel.SetActive(false);
         optionsPanel.SetActive(true);
     }
@@ -58,27 +48,44 @@ public class MainMenuController : MonoBehaviour
     #region Options Menu
     public void OnBackButtonClicked()
     {
-        // Return to the main menu
+        // Save settings when exiting options
+        SaveSoundSettings();
         optionsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
 
     public void OnBackgroundMusicVolumeChanged()
     {
-        // Update the background music volume and save it
         float bgMusicVolume = backgroundMusicSlider.value;
         backgroundMusic.volume = bgMusicVolume;
         PlayerPrefs.SetFloat("BackgroundMusicVolume", bgMusicVolume);
-        PlayerPrefs.Save();
     }
 
     public void OnSoundEffectsVolumeChanged()
     {
-        // Update the sound effects volume and save it
         float sfxVolume = soundEffectsSlider.value;
         soundEffectsAudioSource.volume = sfxVolume;
         PlayerPrefs.SetFloat("SoundEffectsVolume", sfxVolume);
-        PlayerPrefs.Save();
+    }
+    #endregion
+
+    #region Sound Settings Persistence
+    private void SaveSoundSettings()
+    {
+        PlayerPrefs.SetFloat("BackgroundMusicVolume", backgroundMusicSlider.value);
+        PlayerPrefs.SetFloat("SoundEffectsVolume", soundEffectsSlider.value);
+        PlayerPrefs.Save(); // Save changes immediately
+    }
+
+    private void LoadSoundSettings()
+    {
+        float bgMusicVolume = PlayerPrefs.GetFloat("BackgroundMusicVolume", 1f);
+        float sfxVolume = PlayerPrefs.GetFloat("SoundEffectsVolume", 1f);
+
+        backgroundMusicSlider.value = bgMusicVolume;
+        soundEffectsSlider.value = sfxVolume;
+        backgroundMusic.volume = bgMusicVolume;
+        soundEffectsAudioSource.volume = sfxVolume;
     }
     #endregion
 }
