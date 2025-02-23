@@ -33,7 +33,6 @@ public class CustomerControll : MonoBehaviour
     [SerializeField] int _MoneyNeedCheckOut;
     bool checkTienNhan = false;
     RayCastCheckOut rayCastCheckOutManager;
-    public PlayerCurrentMoney playerCurrentMoney;
     private void Awake()
     {
         if(animator == null)
@@ -57,10 +56,6 @@ public class CustomerControll : MonoBehaviour
         ShoppingItem();
         checkOutManager = FindObjectOfType<CheckOutCounter>();
         rayCastCheckOutManager = FindObjectOfType<RayCastCheckOut>();
-        if (playerCurrentMoney==null)
-        {
-            playerCurrentMoney = FindObjectOfType<PlayerCurrentMoney>();
-        }
         randomShelf = Random.Range(0, _Shelf.Length);
     }
 
@@ -296,8 +291,6 @@ public class CustomerControll : MonoBehaviour
         {
             checkOutManager.CongTienToPlayer(tongTienHienTai);
         }
-
-        playerCurrentMoney.CongExp(10);
         rayCastCheckOutManager.KiemTraTienThuaHienTai();
         checkOutManager.ResetCurrentStayCheckOut();
         Destroy(moneyCheckOut);

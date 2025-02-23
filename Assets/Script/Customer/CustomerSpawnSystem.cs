@@ -11,7 +11,6 @@ public class CustomerSpawnSystem : MonoBehaviour
     public GameObject[] Customer;
     public Transform spawnPosition0;
     public Transform spawnPosition1;
-   
     void Start()
     {
         StartCoroutine(SpawnCustomer());
