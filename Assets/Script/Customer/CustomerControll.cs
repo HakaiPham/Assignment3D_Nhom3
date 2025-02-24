@@ -34,6 +34,8 @@ public class CustomerControll : MonoBehaviour
     bool checkTienNhan = false;
     RayCastCheckOut rayCastCheckOutManager;
     public PlayerCurrentMoney playerCurrentMoney;
+    AudioSource audioSource;
+    public AudioClip _CheckOutSound;
     private void Awake()
     {
         if(animator == null)
@@ -56,6 +58,7 @@ public class CustomerControll : MonoBehaviour
         originalPosition = transform.position;
         ShoppingItem();
         checkOutManager = FindObjectOfType<CheckOutCounter>();
+        audioSource = GetComponent<AudioSource>();
         rayCastCheckOutManager = FindObjectOfType<RayCastCheckOut>();
         if (playerCurrentMoney==null)
         {
@@ -69,8 +72,14 @@ public class CustomerControll : MonoBehaviour
     {
         if (_CurrentTargetIndex == _ItemNeedShopping.Count && !_IsFinishedShopping)
         {
-            if (!hasPurchased&&!isOnlyStart)
+            if (!hasPurchased && !isOnlyStart)
             {
+                // Tìm một cái tủ hoạt động
+                while (!_Shelf[randomShelf].activeInHierarchy)
+                {
+                    randomShelf = Random.Range(0, _Shelf.Length);
+                }
+
                 MoveTo(_Shelf[randomShelf].transform.position);
                 isOnlyStart = true;
                 return;
@@ -108,6 +117,7 @@ public class CustomerControll : MonoBehaviour
                 {
                     _CurrentTargetIndex++;
                     animator.SetTrigger("IsShopping");
+                    BuyItem(_ItemNeedShopping[_CurrentTargetIndex - 1]);
                     StartCoroutine(WaitBuy());
                     _ItemNeedShopping[_CurrentTargetIndex - 1].SetActive(false);
                 }
@@ -152,7 +162,7 @@ public class CustomerControll : MonoBehaviour
        //Xác định số lượng vật phẩm cần mua
         // Danh sách các món đồ đã mua trong lần này
         List<GameObject> purchasedItems = new List<GameObject>();
-        int countItem = Random.Range(0,3);
+        int countItem = Random.Range(1,6);
         //Xác định các loại vật phẩm cần mua
         hasPurchased = false;//Đánh dấu đã mua
         foreach (GameObject item in _ListItem)
@@ -170,7 +180,7 @@ public class CustomerControll : MonoBehaviour
                 shoppingItem.isPurchased = true;  // Đánh dấu là đã mua
                 purchasedItems.Add(item);
                 hasPurchased = true;
-                if(purchasedItems.Count == 1)
+                if(purchasedItems.Count == countItem)
                 {
                     break;//Nếu đủ số lượng thì thoát ra khỏi vòng lặp
                 }
@@ -219,6 +229,7 @@ public class CustomerControll : MonoBehaviour
 
                     }
                     items.transform.SetParent(gameObject.transform);
+                    items.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
                     items.SetActive(true);
                     listItemIsCheckOut.Add(items);
                 }
@@ -296,8 +307,8 @@ public class CustomerControll : MonoBehaviour
         {
             checkOutManager.CongTienToPlayer(tongTienHienTai);
         }
-
-        playerCurrentMoney.CongExp(10);
+        audioSource.PlayOneShot(_CheckOutSound);
+        playerCurrentMoney.CongExp(50);
         rayCastCheckOutManager.KiemTraTienThuaHienTai();
         checkOutManager.ResetCurrentStayCheckOut();
         Destroy(moneyCheckOut);
@@ -314,4 +325,23 @@ public class CustomerControll : MonoBehaviour
         _HasCompletedCheckout = true; // Đánh dấu hoàn tất thanh toán
         agent.SetDestination(originalPosition); // Di chuyển về vị trí ban đầu
     }
+    void BuyItem(GameObject item)
+    {
+        if (item != null)
+        {
+            // 1️⃣ Ẩn vật phẩm để mô phỏng việc nó bị mua
+            item.SetActive(false);
+
+            // 2️⃣ Tìm PlacementPoint chứa vật phẩm đó
+            PlacementPoint placementPoint = item.GetComponentInParent<PlacementPoint>();
+
+            // 3️⃣ Nếu tìm thấy PlacementPoint, đánh dấu ô đó là trống
+            if (placementPoint != null)
+            {
+                placementPoint.isInBox = false;
+                Debug.Log("Vật phẩm đã được mua, ô này hiện trống!");
+            }
+        }
+    }
+
 }

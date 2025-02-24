@@ -13,4 +13,7 @@ public class AddDollar : MonoBehaviour, IInteraction
         Debug.Log("Interacting with object:" + gameObject.name);
         showNumber.AddIn(value);
     }
+    public void Interact1()
+    {
+    }
 }

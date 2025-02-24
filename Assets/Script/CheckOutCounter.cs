@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -122,8 +123,29 @@ public class CheckOutCounter : MonoBehaviour
     // Hàm random số tiền khách đưa
     public int GetRandomPayment(int totalPrice)
     {
-        int[] possiblePayments = { totalPrice, totalPrice + 5, totalPrice + 10, totalPrice + 20, totalPrice + 50, totalPrice + 100 };
-        return possiblePayments[Random.Range(0, possiblePayments.Length)];
+        // Danh sách các mệnh giá tiền khách có thể có
+        int[] largeBills = { 1, 2, 5, 10, 20, 50, 100, 200, 500 };
+
+        List<int> validPayments = new List<int>();
+
+        // Nếu totalPrice là mệnh giá tròn, khách có thể trả đúng hoặc đưa tờ lớn hơn gần nhất
+        if (largeBills.Contains(totalPrice))
+        {
+            validPayments.Add(totalPrice); // Thêm lựa chọn trả đúng số tiền
+        }
+
+        // Tìm tờ tiền lớn hơn gần nhất để đưa vào danh sách validPayments
+        foreach (int bill in largeBills)
+        {
+            if (bill > totalPrice)
+            {
+                validPayments.Add(bill);
+                break; // Chỉ lấy tờ lớn hơn gần nhất
+            }
+        }
+
+        // Trả về một giá trị ngẫu nhiên từ validPayments
+        return validPayments[Random.Range(0, validPayments.Count)];
     }
     public void AddCustomerToQueue(GameObject customer)
     {

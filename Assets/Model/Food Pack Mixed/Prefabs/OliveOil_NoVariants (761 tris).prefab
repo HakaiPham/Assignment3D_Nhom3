@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 23435969545986682}
   - component: {fileID: 2642429582426844766}
   - component: {fileID: -8934290805520589481}
-  - component: {fileID: 5278837943712875626}
   - component: {fileID: -547703950677168400}
   m_Layer: 0
   m_Name: OliveOil_NoVariants (761 tris)
@@ -142,29 +141,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &5278837943712875626
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1663158576358738}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.0053852
-  m_Height: 10.1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-547703950677168400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +156,7 @@ MonoBehaviour:
   ItemName: 
   isPurchased: 0
   isLocked: 0
-  price: 35
+  price: 20
 --- !u!1 &4001566849328561102
 GameObject:
   m_ObjectHideFlags: 0

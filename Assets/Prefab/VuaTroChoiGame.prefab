@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5332068380419885215}
   - component: {fileID: 5367193545481803705}
   - component: {fileID: 4229205602906782177}
+  - component: {fileID: 6296757287408655410}
   m_Layer: 0
   m_Name: VuaTroChoiGame
   m_TagString: CanPickup
@@ -135,3 +136,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6296757287408655410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374555853548985368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc56b066d9fbbd94fa3bc9fa928f8948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemName: 
+  isPurchased: 0
+  isLocked: 0
+  price: 55

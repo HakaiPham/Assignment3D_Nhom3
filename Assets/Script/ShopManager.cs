@@ -20,10 +20,18 @@ public class ShopManager : MonoBehaviour
 
     private PlayerCurrentMoney playerMoney; // Reference to PlayerCurrentMoney
 
+    private void Awake()
+    {
+        playerMoney = FindObjectOfType<PlayerCurrentMoney>();
+        for (int i = 0; i < shopItems.Count; i++)
+        {
+            shopItems[i].id = i;
+            shopItems[i].name = shopItems[i].prefab.gameObject.name;
+        }
+    }
     void Start()
     {
         // Find PlayerCurrentMoney in the scene
-        playerMoney = FindObjectOfType<PlayerCurrentMoney>();
 
         if (playerMoney == null)
         {
@@ -33,16 +41,11 @@ public class ShopManager : MonoBehaviour
 
         UpdateMoneyUI(); // Set initial UI money value
 
-        for (int i = 1; i <= 43; i++)
-        {
-            shopItems.Add(new ShopItem
-            {
-                id = i,
-                name = "Item " + i,
-                price = Random.Range(10, 500), // Random price between 10 and 500
-                prefab = Resources.Load<GameObject>("Item" + i) // Load prefab from Resources folder
-            });
-        }
+        //for (int i = 0; i <= shopItems.Count; i++)
+        //{
+        //    shopItems[i].id = i;
+        //    shopItems[i].name = shopItems[i].prefab.gameObject.name;
+        //}
     }
 
     public void BuyItem(int itemId)
