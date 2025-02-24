@@ -25,14 +25,14 @@ public class PlacementPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Goods")){
+        if(other.CompareTag("CanPickup")){
             isInBox = true;
         }
     }
 
   
     void OnTriggerExit(Collider other){
-        if(other.CompareTag("Goods")){
+        if(other.CompareTag("CanPickup")){
             isInBox = false;
         }
     }

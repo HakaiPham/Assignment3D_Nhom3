@@ -21,8 +21,11 @@ public class RayCastCheckOut : MonoBehaviour
     private float moneyOffset = 0.01f; // Khoảng cách giữa các tờ tiền
     public PlayerCurrentMoney playerMoneyManager;
     public TextMeshPro moneytext;
+    AudioSource audioSource;
+    public AudioClip _SoundOpenWoodBox;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -58,6 +61,10 @@ public class RayCastCheckOut : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("NapBan"))
                 {
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.PlayOneShot(_SoundOpenWoodBox);
+                    }
                     NapBan napBan = hit.collider.GetComponent<NapBan>();
                     if (napBan != null)
                     {

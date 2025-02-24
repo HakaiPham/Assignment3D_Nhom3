@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 19179845253093873}
+  - component: {fileID: 2704769424503007745}
   m_Layer: 0
   m_Name: MoneyOfCustomer
   m_TagString: Untagged
@@ -35,6 +36,27 @@ Transform:
   - {fileID: 2076071173705820217}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2704769424503007745
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5421267536522100032}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.53515625, y: 0.27734375, z: 0.37109375}
+  m_Center: {x: 0.009765625, y: -0.03881836, z: 0.021484375}
 --- !u!1001 &1827594408669744625
 PrefabInstance:
   m_ObjectHideFlags: 0

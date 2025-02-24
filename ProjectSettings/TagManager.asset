@@ -18,6 +18,7 @@ TagManager:
   - 50USD
   - 100USD
   - CheckOut
+  - Box
   layers:
   - Default
   - TransparentFX

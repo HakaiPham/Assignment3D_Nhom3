@@ -11,7 +11,7 @@ public class CustomerSpawnSystem : MonoBehaviour
     public GameObject[] Customer;
     public Transform spawnPosition0;
     public Transform spawnPosition1;
-   
+    public TimeController TimeManger;
     void Start()
     {
         StartCoroutine(SpawnCustomer());
@@ -29,22 +29,30 @@ public class CustomerSpawnSystem : MonoBehaviour
     {
         while (true)  // Luôn chạy
         {
-            if (_CurrentQuanityCustomer < _MaxCustomer)  // Chỉ spawn khi chưa đủ số lượng
+            if(TimeManger!=null && !TimeManger.CheckCanSpawnCustomer())
             {
-                int spawnPosition = SpawnPosition();
-                int random = Random.Range(0, Customer.Length);
-                if (spawnPosition == 0)
-                {
-                    GameObject customer = Instantiate(Customer[random], spawnPosition0.position, Quaternion.identity);
-                }
-                else
-                {
-                    GameObject customer1 = Instantiate(Customer[random], spawnPosition1.position, Quaternion.identity);
-                }
-                _CurrentQuanityCustomer++;
+                yield return new WaitForSeconds(1f);
+                continue;
             }
-
-            yield return new WaitForSeconds(Random.Range(2, 6)); // Chờ rồi kiểm tra lại
+            else if (TimeManger != null && TimeManger.CheckCanSpawnCustomer())
+            {
+                if (_CurrentQuanityCustomer < _MaxCustomer)  // Chỉ spawn khi chưa đủ số lượng
+                {
+                    int spawnPosition = SpawnPosition();
+                    int random = Random.Range(0, Customer.Length);
+                    if (spawnPosition == 0)
+                    {
+                        GameObject customer = Instantiate(Customer[random], spawnPosition0.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        GameObject customer1 = Instantiate(Customer[random], spawnPosition1.position, Quaternion.identity);
+                    }
+                    _CurrentQuanityCustomer++;
+                }
+                yield return new WaitForSeconds(Random.Range(2, 6)); // Chờ rồi kiểm tra lại
+            }
+            yield return new WaitForSeconds(0.1f);
         }
     }
     private void OnTriggerExit(Collider other)

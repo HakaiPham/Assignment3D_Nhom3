@@ -58,10 +58,14 @@ public class TimeController : MonoBehaviour
     [SerializeField]
     private GameObject KhachHang; // Đối tượng khách hàng sẽ bị tắt lúc 20:00
 
-
-    public CustomerSpawnSystem SpawnManager;
+    bool CheckCanSpawn = true;
     void Start()
     {
+        currentDay = PlayerPrefs.GetInt("Date", 1);
+        if (dayText != null)
+        {
+            dayText.text = $"Day {currentDay}";
+        }
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
 
         sunriseTime = TimeSpan.FromHours(sunriseHour);
@@ -76,15 +80,32 @@ public class TimeController : MonoBehaviour
         UpdateLightSettings();
         if (currentTime.Hour >= 14 && currentTime.Minute >= 0)
         {
-            SpawnManager.enabled = false;
+            CheckCanSpawn = false;
 
         }
-        else
+        else if (currentTime.Hour >= 6 && currentTime.Minute >= 0)
         {
-            SpawnManager.enabled = true;
+            CheckCanSpawn = true;
 
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            currentDay++; // Tăng ngày lên 1
+            PlayerPrefs.SetInt("Date", currentDay);
+            PlayerPrefs.Save();
+            currentTime = DateTime.Now.Date + TimeSpan.FromHours(6); // Đặt thời gian về 6:00 sáng
+            summaryMenu.SetActive(false);
+            Cursor.visible = false; // Ẩn con trỏ chuột
+            Cursor.lockState = CursorLockMode.Locked; // Khóa con trỏ vào giữa màn hình
+                                                      //Time.timeScale = 1; // Tiếp tục thời gian
 
+
+            // Cập nhật lại UI ngay lập tức
+            if (dayText != null)
+            {
+                dayText.text = $"Day {currentDay}";
+            }
+        }
     }
 
     private void UpdateTimeOfDay()
@@ -108,13 +129,13 @@ public class TimeController : MonoBehaviour
         }
 
         // Kiểm tra nếu đến 21:00 thì bật menu tổng kết
-        if (currentTime.Hour == 21 && currentTime.Minute == 0)
+        if ((currentTime.Hour >= 21|| currentTime.Hour >= 1 && currentTime.Hour < 6) 
+            && currentTime.Minute >= 0 && Input.GetKeyDown(KeyCode.U))
         {
             summaryMenu.SetActive(true);
-           
+
             Cursor.visible = true; // Hiện con trỏ chuột
             Cursor.lockState = CursorLockMode.None; // Cho phép di chuyển chuột tự do
-            //Time.timeScale = 0; // Tạm dừng thời gian
         }
 
         //// Kiểm tra nếu đến 20:00 thì tắt GameObject "KhachHang"
@@ -141,6 +162,8 @@ public class TimeController : MonoBehaviour
     public void SkipToMorning() // dung de skip ngay
     {
         currentDay++; // Tăng ngày lên 1
+        PlayerPrefs.SetInt("Date", currentDay);
+        PlayerPrefs.Save();
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(6); // Đặt thời gian về 6:00 sáng
         summaryMenu.SetActive(false);
         Cursor.visible = false; // Ẩn con trỏ chuột
@@ -206,5 +229,9 @@ public class TimeController : MonoBehaviour
     public int GetCurrentDay()
     {
         return currentDay;
+    }
+    public bool CheckCanSpawnCustomer()
+    {
+        return CheckCanSpawn;
     }
 }

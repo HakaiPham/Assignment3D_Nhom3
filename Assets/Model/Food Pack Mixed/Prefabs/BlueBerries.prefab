@@ -206,7 +206,6 @@ GameObject:
   - component: {fileID: 95878198201022974}
   - component: {fileID: 6561296376177878928}
   - component: {fileID: 171640549088237949}
-  - component: {fileID: 2577607510968489744}
   - component: {fileID: 5737361476893765200}
   m_Layer: 0
   m_Name: BlueBerries
@@ -273,8 +272,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.4911757, y: 3.1035368, z: 6.991589}
-  m_Center: {x: 2.7455873, y: 1.6904764, z: -0.3600923}
+  m_Size: {x: 6.491177, y: 3.7962584, z: 6.991589}
+  m_Center: {x: 2.7455878, y: 3.0068972, z: -0.36009225}
 --- !u!54 &171640549088237949
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -302,29 +301,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &2577607510968489744
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984955197021354}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 10.1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5737361476893765200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +316,7 @@ MonoBehaviour:
   ItemName: 
   isPurchased: 0
   isLocked: 0
-  price: 35
+  price: 20
 --- !u!1 &1449473119185262058
 GameObject:
   m_ObjectHideFlags: 0
