@@ -97,4 +97,14 @@ public class PlayerCurrentMoney : MonoBehaviour
         Debug.Log($"[UpdateLevel] Player Level Updated: {level}");
         return level;
     }
+
+    public void ResetAll()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+    public int GetMoney()
+    {
+        return currentMoney;
+    }
 }

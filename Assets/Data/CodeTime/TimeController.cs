@@ -61,6 +61,13 @@ public class TimeController : MonoBehaviour
     bool CheckCanSpawn = true;
     void Start()
     {
+        //if (GameData.isNewGame) // Kiểm tra nếu là game mới
+        //{
+        //    ResetDay();
+        //    FindAnyObjectByType<PlayerCurrentMoney>()?.ResetAll();
+        //    GameData.isNewGame = false; // Reset lại trạng thái
+        //}
+        //PlayerPrefs.DeleteKey("Date");
         currentDay = PlayerPrefs.GetInt("Date", 1);
         if (dayText != null)
         {
@@ -78,7 +85,7 @@ public class TimeController : MonoBehaviour
         UpdateTimeOfDay();
         RotateSun();
         UpdateLightSettings();
-        if (currentTime.Hour >= 14 && currentTime.Minute >= 0)
+        if (currentTime.Hour >= 21 && currentTime.Minute >= 0)
         {
             CheckCanSpawn = false;
 
@@ -88,24 +95,7 @@ public class TimeController : MonoBehaviour
             CheckCanSpawn = true;
 
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            currentDay++; // Tăng ngày lên 1
-            PlayerPrefs.SetInt("Date", currentDay);
-            PlayerPrefs.Save();
-            currentTime = DateTime.Now.Date + TimeSpan.FromHours(6); // Đặt thời gian về 6:00 sáng
-            summaryMenu.SetActive(false);
-            Cursor.visible = false; // Ẩn con trỏ chuột
-            Cursor.lockState = CursorLockMode.Locked; // Khóa con trỏ vào giữa màn hình
-                                                      //Time.timeScale = 1; // Tiếp tục thời gian
-
-
-            // Cập nhật lại UI ngay lập tức
-            if (dayText != null)
-            {
-                dayText.text = $"Day {currentDay}";
-            }
-        }
+        
     }
 
     private void UpdateTimeOfDay()
@@ -123,20 +113,56 @@ public class TimeController : MonoBehaviour
         }
 
         // Kiểm tra nếu qua 00:00 thì ngày +1
-        if (currentTime.Hour == 0 && currentTime.Minute == 0)
+        if (currentTime.Hour == 0 && currentTime.Minute == 0 && !summaryMenu.activeInHierarchy)
         {
+           
+            summaryMenu.SetActive(true);
+            StartCoroutine(SumaryMenu());
+            Cursor.visible = false; // Ẩn con trỏ chuột
+            Cursor.lockState = CursorLockMode.Locked; // Khóa con trỏ vào giữa màn hình
+        }
+        else if(currentTime.Hour == 6 && currentTime.Minute >= 0 && summaryMenu.activeInHierarchy)
+        {
+            summaryMenu.SetActive(false);
             currentDay++;
+            PlayerPrefs.SetInt("Date", currentDay);
+            PlayerPrefs.Save();
+            if (dayText != null)
+            {
+                dayText.text = $"Day {currentDay}";
+            }
         }
 
         // Kiểm tra nếu đến 21:00 thì bật menu tổng kết
         if ((currentTime.Hour >= 21|| currentTime.Hour >= 1 && currentTime.Hour < 6) 
-            && currentTime.Minute >= 0 && Input.GetKeyDown(KeyCode.U))
+            && currentTime.Minute >= 0 && Input.GetKeyDown(KeyCode.U)&&!summaryMenu.activeInHierarchy)
         {
             summaryMenu.SetActive(true);
 
             Cursor.visible = true; // Hiện con trỏ chuột
             Cursor.lockState = CursorLockMode.None; // Cho phép di chuyển chuột tự do
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                currentDay++; // Tăng ngày lên 1
+                PlayerPrefs.SetInt("Date", currentDay);
+                PlayerPrefs.Save();
+                currentTime = DateTime.Now.Date + TimeSpan.FromHours(6); // Đặt thời gian về 6:00 sáng
+                summaryMenu.SetActive(false);
+                Cursor.visible = false; // Ẩn con trỏ chuột
+                Cursor.lockState = CursorLockMode.Locked; // Khóa con trỏ vào giữa màn hình
+                                                          //Time.timeScale = 1; // Tiếp tục thời gian
+                
+
+                // Cập nhật lại UI ngay lập tức
+                if (dayText != null)
+                {
+                    dayText.text = $"Day {currentDay}";
+                }
+            }
         }
+       
+       
+          
 
         //// Kiểm tra nếu đến 20:00 thì tắt GameObject "KhachHang"
         //if (currentTime.Hour == 14 && currentTime.Minute == 0)
@@ -147,18 +173,37 @@ public class TimeController : MonoBehaviour
         //    }
         //}
 
-        //// Bật lại KhachHang lúc 6:00 sáng
-        //if (currentTime.Hour == 7 && currentTime.Minute == 0)
-        //{
-        //    if (KhachHang != null)
-        //    {
-        //        KhachHang.SetActive(true);
-        //    }
+            //// Bật lại KhachHang lúc 6:00 sáng
+            //if (currentTime.Hour == 7 && currentTime.Minute == 0)
+            //{
+            //    if (KhachHang != null)
+            //    {
+            //        KhachHang.SetActive(true);
+            //    }
 
-        //}
+            //}
     }
 
-   
+   IEnumerator SumaryMenu()
+    {
+        
+       yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.P));
+        currentDay++; // Tăng ngày lên 1
+        PlayerPrefs.SetInt("Date", currentDay);
+        PlayerPrefs.Save();
+        currentTime = DateTime.Now.Date + TimeSpan.FromHours(6); // Đặt thời gian về 6:00 sáng
+        summaryMenu.SetActive(false);
+        Cursor.visible = false; // Ẩn con trỏ chuột
+        Cursor.lockState = CursorLockMode.Locked; // Khóa con trỏ vào giữa màn hình
+                                                  //Time.timeScale = 1; // Tiếp tục thời gian
+
+
+        // Cập nhật lại UI ngay lập tức
+        if (dayText != null)
+        {
+            dayText.text = $"Day {currentDay}";
+        }
+    }
     public void SkipToMorning() // dung de skip ngay
     {
         currentDay++; // Tăng ngày lên 1
@@ -233,5 +278,10 @@ public class TimeController : MonoBehaviour
     public bool CheckCanSpawnCustomer()
     {
         return CheckCanSpawn;
+    }
+
+    public void ResetDay()
+    {
+        PlayerPrefs.DeleteKey("Date");
     }
 }
