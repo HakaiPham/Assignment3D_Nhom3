@@ -12,7 +12,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        mainMenu.SetActive(false);
     }
     public void NewGameButton()
     {
