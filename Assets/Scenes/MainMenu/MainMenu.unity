@@ -674,8 +674,8 @@ GameObject:
   - component: {fileID: 1134223275}
   - component: {fileID: 1134223274}
   - component: {fileID: 1134223273}
-  - component: {fileID: 1134223272}
   - component: {fileID: 1134223271}
+  - component: {fileID: 1134223272}
   m_Layer: 5
   m_Name: MainMenuCanvast
   m_TagString: Untagged
